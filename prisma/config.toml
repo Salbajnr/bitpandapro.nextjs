@@ -1,0 +1,2 @@
+[datasource]
+url = "${DATABASE_URL}"

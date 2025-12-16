@@ -1,0 +1,71 @@
+// Prisma schema for Supabase Postgres
+// After creating this file:
+// 1) npm i -D prisma && npm i @prisma/client
+// 2) Create .env.local with DATABASE_URL from Supabase (Connection string -> URI)
+//    Example: DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/dbname?pgbouncer=true&connection_limit=1"
+// 3) npx prisma generate
+// 4) npx prisma migrate dev --name init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // url property removed for Prisma v7 - connection now handled in prisma.config.ts
+}
+
+enum TradeSide {
+  BUY
+  SELL
+}
+
+model User {
+  id          String      @id @default(uuid()) @db.Uuid
+  email       String      @unique
+  name        String?
+  portfolios  Portfolio[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Portfolio {
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @db.Uuid
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name       String
+  holdings   Holding[]
+  trades     Trade[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model Holding {
+  id           String     @id @default(uuid()) @db.Uuid
+  portfolioId  String     @db.Uuid
+  portfolio    Portfolio  @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  symbol       String
+  quantity     Decimal    @db.Decimal(65, 30)
+  averageCost  Decimal    @db.Decimal(65, 30)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([portfolioId])
+  @@unique([portfolioId, symbol]) // one row per symbol per portfolio
+}
+
+model Trade {
+  id           String     @id @default(uuid()) @db.Uuid
+  portfolioId  String     @db.Uuid
+  portfolio    Portfolio  @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  symbol       String
+  side         TradeSide
+  quantity     Decimal    @db.Decimal(65, 30)
+  price        Decimal    @db.Decimal(65, 30)
+  executedAt   DateTime   @default(now())
+  createdAt    DateTime   @default(now())
+
+  @@index([portfolioId, executedAt])
+}
