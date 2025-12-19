@@ -20,7 +20,7 @@ export default function RegisterSuccessPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email, // In a real app, you would get this from context or params
+          email: 'user@example.com', // In a real app, you would get this from context or params
         }),
       });
       

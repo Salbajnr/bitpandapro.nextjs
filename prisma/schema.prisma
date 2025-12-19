@@ -12,7 +12,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum TradeSide {
@@ -21,13 +20,15 @@ enum TradeSide {
 }
 
 model User {
-  id            String      @id @default(uuid()) @db.Uuid
-  email         String      @unique
-  name          String?
-  emailVerified DateTime?
-  portfolios    Portfolio[]
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id                   String               @id @default(uuid()) @db.Uuid
+  email                String               @unique
+  name                 String?
+  emailVerified        DateTime?
+  portfolios           Portfolio[]
+  verificationTokens   VerificationToken[]
+  passwordResetTokens  PasswordResetToken[]
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
 }
 
 model Portfolio {
