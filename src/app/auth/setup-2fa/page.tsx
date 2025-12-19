@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Image from "next/image";
 
-export default function Setup2FAPage() {
+function Setup2FAContent() {
   const [isSetup, setIsSetup] = useState(false);
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
 
@@ -23,7 +23,6 @@ export default function Setup2FAPage() {
   };
 
   const handleDownloadCodes = () => {
-    // In a real app, you would download the backup codes
     console.log("Downloading backup codes");
   };
 
@@ -41,6 +40,7 @@ export default function Setup2FAPage() {
                   width={150}
                   height={44}
                   className="h-11 w-auto"
+                  priority
                 />
               </div>
             </Link>
@@ -75,8 +75,8 @@ export default function Setup2FAPage() {
                       Store these backup codes in a secure location. You can use them to access your account if you lose your phone.
                     </p>
                     <div className="grid grid-cols-2 gap-2 bg-gray-50 p-4 rounded">
-                      {backupCodes.map((code, index) => (
-                        <div key={index} className="font-mono text-sm p-2 bg-white rounded border">
+                      {backupCodes.map((code) => (
+                        <div key={`backup-code-${code}`} className="font-mono text-sm p-2 bg-white rounded border">
                           {code}
                         </div>
                       ))}
@@ -136,15 +136,23 @@ export default function Setup2FAPage() {
       <footer className="bg-white border-t border-gray-200 py-6">
         <div className="bp-container">
           <div className="text-center text-sm text-gray-500">
-            <p>© 2024 BITPANDA PRO. All rights reserved.</p>
-            <div className="footer-links">
-              <Link href="/terms" className="footer-link">Terms</Link>
-              <Link href="/privacy" className="footer-link">Privacy</Link>
-              <Link href="/security" className="footer-link">Security</Link>
+            <p> 2024 BITPANDA PRO. All rights reserved.</p>
+            <div className="flex justify-center space-x-4 mt-2">
+              <Link href="/terms" className="hover:underline">Terms</Link>
+              <Link href="/privacy" className="hover:underline">Privacy</Link>
+              <Link href="/security" className="hover:underline">Security</Link>
             </div>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function Setup2FAPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <Setup2FAContent />
+    </Suspense>
   );
 }
