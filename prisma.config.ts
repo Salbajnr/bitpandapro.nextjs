@@ -1,8 +1,10 @@
-import { defineConfig } from '@prisma/client/runtime/library'
+// Prisma configuration
+// This configuration uses environment variables for database connection
 
-export default defineConfig({
-  datasource: {
-    url: process.env.DATABASE_URL,
-    direct: true,
-  },
-})
+export default {
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    }
+  }
+}
