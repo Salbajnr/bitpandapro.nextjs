@@ -1,12 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 export default function Setup2FAPage() {
+  const [isMounted, setIsMounted] = useState(false);
   const [isSetup, setIsSetup] = useState(false);
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  if (!isMounted) return null;
 
   const handleEnable2FA = () => {
     // Simulate 2FA setup
@@ -75,8 +83,8 @@ export default function Setup2FAPage() {
                       Store these backup codes in a secure location. You can use them to access your account if you lose your phone.
                     </p>
                     <div className="grid grid-cols-2 gap-2 bg-gray-50 p-4 rounded">
-                      {backupCodes.map((code, index) => (
-                        <div key={index} className="font-mono text-sm p-2 bg-white rounded border">
+                      {backupCodes.map((code) => (
+                        <div key={`backup-code-${code}`} className="font-mono text-sm p-2 bg-white rounded border">
                           {code}
                         </div>
                       ))}
