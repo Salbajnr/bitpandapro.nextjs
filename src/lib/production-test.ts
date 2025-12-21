@@ -71,12 +71,13 @@ async function testSupabaseConfiguration() {
     console.log('✅ Supabase environment variables are set');
     
     // Test Supabase connection by trying to list users (requires service key)
-    const { data, error } = await prisma.user.findMany({
+    const users = await prisma.user.findMany({
       take: 1
     });
     
-    if (error) {
-      console.error('❌ Supabase connection test failed:', error);
+    // Since findMany returns an array, we check if it succeeded by checking if it's an array
+    if (!Array.isArray(users)) {
+      console.error('❌ Supabase connection test failed: Unexpected return type');
       return false;
     }
     
@@ -109,7 +110,7 @@ async function testEmailService() {
       console.log('   Note: In production, configure Supabase Auth Email Templates or a custom email service');
       return true;
     } else {
-      console.error('❌ Email service test failed:', result.error);
+      console.error('❌ Email service test failed:', result.error || 'Unknown error');
       return false;
     }
   } catch (error) {

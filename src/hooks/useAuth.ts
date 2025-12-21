@@ -9,20 +9,21 @@ export type User = Readonly<{
   name: string;
 }>;
 
+// Create a single Supabase client instance
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Supabase environment variables are not set');
+}
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 export function useAuth() {
   const [user, setUser] = useState<User | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Supabase environment variables are not set');
-  }
-  
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
   useEffect(() => {
     // Check for an authenticated user
     const checkAuth = async () => {
