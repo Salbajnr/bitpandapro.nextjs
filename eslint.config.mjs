@@ -3,6 +3,12 @@ import nextPlugin from '@next/eslint-plugin-next'
 /** @type {import("eslint").Linter.FlatConfig[]} */
 const config = [
   {
+    ignores: [
+      '**/.next/**',
+      '**/node_modules/**',
+    ],
+  },
+  {
     plugins: {
       '@next/next': nextPlugin,
     },

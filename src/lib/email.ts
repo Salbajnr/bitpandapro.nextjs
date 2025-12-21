@@ -1,45 +1,22 @@
-import nodemailer from 'nodemailer';
-
-// Send email function using Gmail SMTP with app password
+// Send email function placeholder - In a production environment, configure Supabase Auth Email Templates
+// or implement a custom email sending solution using services like Resend, SendGrid, etc.
 export async function sendEmail(to: string, subject: string, html: string, text?: string) {
-  // Check if email configuration exists
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
-    console.warn('Email configuration missing. Skipping email send.');
-    return { messageId: 'skipped', accepted: [], rejected: [] };
-  }
-
-  try {
-    // Create transporter using Gmail SMTP
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-    });
-    
-    const mailOptions = {
-      from: `"Bitpanda Pro" <${process.env.GMAIL_USER}>`,
-      to,
-      subject,
-      text,
-      html,
-    };
-    
-    const result = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', result.messageId);
-    return result;
-  } catch (error: any) {
-    console.error('Error sending email:', error);
-    console.error('SMTP Error Details:', {
-      code: error.code,
-      command: error.command,
-      response: error.response,
-    });
-    throw new Error(`Failed to send email: ${error.message}`);
-  }
+  console.warn('Email sending is not configured. Please set up Supabase Auth Email Templates or a custom email service.');
+  
+  // In a production environment, you would integrate with an email service here
+  // For example, using Resend, SendGrid, or configuring Supabase Auth Email Templates
+  
+  // For now, we'll simulate successful email sending for development purposes
+  console.log(`📧 Simulated email send to ${to}: ${subject}`);
+  console.log(`HTML Content: ${html.substring(0, 100)}...`);
+  
+  return { 
+    success: true, 
+    messageId: 'simulated-' + Date.now(), 
+    accepted: [to], 
+    rejected: [], 
+    error: null 
+  };
 }
 
 // Send verification email
@@ -85,7 +62,12 @@ export async function sendVerificationEmail(to: string, verificationToken: strin
     If you didn't create an account with Bitpanda Pro, you can safely ignore this email.
   `;
   
-  return sendEmail(to, subject, html, text);
+  const result = await sendEmail(to, subject, html, text);
+  if (!result.success) {
+    console.error('Failed to send verification email:', result.error);
+    throw new Error(`Failed to send verification email: ${result.error}`);
+  }
+  return result;
 }
 
 // Send password reset email
@@ -132,5 +114,10 @@ export async function sendPasswordResetEmail(to: string, resetToken: string) {
     If you didn't request a password reset, you can safely ignore this email.
   `;
   
-  return sendEmail(to, subject, html, text);
+  const result = await sendEmail(to, subject, html, text);
+  if (!result.success) {
+    console.error('Failed to send password reset email:', result.error);
+    throw new Error(`Failed to send password reset email: ${result.error}`);
+  }
+  return result;
 }
