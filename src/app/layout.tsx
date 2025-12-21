@@ -55,7 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.className}`} suppressHydrationWarning>
-      <body className="antialiased">
+      <body className="antialiased" suppressHydrationWarning>
         <ThemeProvider>
           {children}
         </ThemeProvider>
