@@ -79,6 +79,17 @@ export function useAuth() {
       }
       
       if (data.user) {
+        // Check if user's email is verified
+        const { data: { user: fullUser }, error: fetchError } = await supabase.auth.getUser();
+        
+        if (fetchError) {
+          return { success: false as const, error: 'Failed to fetch user details. Please try again.' };
+        }
+        
+        if (fullUser && !fullUser.email_confirmed_at) {
+          return { success: false as const, error: 'Please verify your email address before logging in. Check your inbox for the verification email.' };
+        }
+        
         const user: User = {
           id: data.user.id,
           email: data.user.email || '',
@@ -102,6 +113,28 @@ export function useAuth() {
       router.push('/auth');
     } catch (error) {
       console.error('Logout failed:', error);
+    }
+  };
+
+  const signInWithOAuth = async (provider: 'google' | 'github' | 'facebook') => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`
+        }
+      });
+      
+      if (error) {
+        return { success: false as const, error: error.message };
+      }
+      
+      // The OAuth flow will redirect the user to the provider's login page
+      // After successful authentication, they'll be redirected back to the callback URL
+      return { success: true as const };
+    } catch (error) {
+      console.error(`OAuth login with ${provider} failed:`, error);
+      return { success: false as const, error: `Failed to login with ${provider}` };
     }
   };
 
@@ -129,6 +162,11 @@ export function useAuth() {
           name: data.user.user_metadata?.full_name || 'User'
         };
         setUser(user);
+        
+        // Store user email in localStorage for verification purposes
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('userEmailForVerification', email);
+        }
         
         // Send verification email via API route
         try {
@@ -162,5 +200,6 @@ export function useAuth() {
     login,
     logout,
     register,
+    signInWithOAuth,
   };
 }

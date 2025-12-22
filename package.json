@@ -16,6 +16,7 @@
     "monitor-logs": "npx tsx src/lib/log-monitor.ts"
   },
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^1.17.1",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@radix-ui/react-slot": "^1.2.4",
@@ -30,6 +31,7 @@
     "prisma": "^7.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hcaptcha": "^0.1.1",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.2.1"
   },

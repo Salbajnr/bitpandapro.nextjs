@@ -105,6 +105,7 @@ export default function BitpandaNavbar() {
                 alt="Bitpanda Pro logo" 
                 width={150}
                 height={44}
+                style={{ width: 'auto', height: 'auto' }}
               />
             </div>
           </Link>

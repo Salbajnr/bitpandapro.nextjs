@@ -39,7 +39,7 @@ export default function RecoveryPage() {
                   alt="Bitpanda logo" 
                   width={150}
                   height={44}
-                  className="h-11 w-auto"
+                  className="h-11 w-auto" style={{ width: 'auto', height: 'auto' }}
                 />
               </div>
             </Link>

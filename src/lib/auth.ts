@@ -47,6 +47,12 @@ export async function getSupabaseUser() {
   
   // Ensure the user exists in our Prisma database
   if (user) {
+    // Check if user's email is verified
+    if (!user.email_confirmed_at) {
+      console.log('User email not verified:', user.email);
+      return null; // Return null for unverified users
+    }
+    
     try {
       await ensurePrismaUser(user);
     } catch (error) {

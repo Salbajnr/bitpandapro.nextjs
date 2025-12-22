@@ -13,6 +13,15 @@ export default function RegisterSuccessPage() {
     setResendStatus('');
     
     try {
+      // Get the user's email from localStorage or other storage mechanism
+      const userEmail = localStorage.getItem('userEmailForVerification') || '';
+      
+      if (!userEmail) {
+        setResendStatus('Unable to resend email. Please contact support.');
+        setIsResending(false);
+        return;
+      }
+      
       // Call the API route to resend the verification email
       const response = await fetch('/api/email/send-verification', {
         method: 'POST',
@@ -20,7 +29,7 @@ export default function RegisterSuccessPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: 'user@example.com', // In a real app, you would get this from context or params
+          email: userEmail,
         }),
       });
       
@@ -49,7 +58,7 @@ export default function RegisterSuccessPage() {
                   alt="Bitpanda logo" 
                   width={150}
                   height={44}
-                  className="h-11 w-auto"
+                  className="h-11 w-auto" style={{ width: 'auto', height: 'auto' }}
                 />
               </div>
             </Link>
@@ -70,6 +79,9 @@ export default function RegisterSuccessPage() {
               </h1>
               <p className="auth-subtitle">
                 Your account has been created. Please check your email to verify your account before logging in.
+              </p>
+              <p className="text-sm text-gray-500 mt-2">
+                If you don't receive the email within a few minutes, check your spam folder or click "resend email" below.
               </p>
             </div>
 
