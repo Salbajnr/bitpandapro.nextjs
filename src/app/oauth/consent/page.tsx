@@ -2,25 +2,26 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function OAuthConsentPage() {
+function OAuthConsentPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   // OAuth request parameters
   const clientId = searchParams.get('client_id');
   const redirectUri = searchParams.get('redirect_uri');
   const responseType = searchParams.get('response_type');
   const scope = searchParams.get('scope');
   const state = searchParams.get('state');
-  
+
   const [loading, setLoading] = useState(true);
   const [clientInfo, setClientInfo] = useState<any>(null);
   const [userInfo, setUserInfo] = useState<any>(null);
   const [error, setError] = useState("");
-  
+
   // Mock data for demonstration - in a real implementation, this would come from Supabase
   useEffect(() => {
     // Simulate fetching client and user information
@@ -30,29 +31,29 @@ export default function OAuthConsentPage() {
         description: "This application is requesting access to your Bitpanda Pro account.",
         website: "https://sample-client.com"
       });
-      
+
       setUserInfo({
         name: "John Doe",
         email: "john.doe@example.com"
       });
-      
+
       setLoading(false);
     }, 500);
   }, []);
-  
+
   const handleApprove = () => {
     // In a real implementation, this would call the Supabase OAuth approval API
     // For now, we'll simulate the redirect with a success parameter
     const successRedirectUri = `${redirectUri}?code=MOCK_AUTH_CODE&state=${state}`;
     window.location.href = successRedirectUri;
   };
-  
+
   const handleDeny = () => {
     // In a real implementation, this would redirect back with an error
     const errorRedirectUri = `${redirectUri}?error=access_denied&state=${state}`;
     window.location.href = errorRedirectUri;
   };
-  
+
   // Show loading state while fetching data
   if (loading) {
     return (
@@ -117,7 +118,7 @@ export default function OAuthConsentPage() {
       </div>
     );
   }
-  
+
   return (
     <div className="min-h-screen bg-[#f4f4f4] flex flex-col">
       {/* Header */}
@@ -261,5 +262,13 @@ export default function OAuthConsentPage() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function OAuthConsentPage() {
+  return (
+    <Suspense>
+      <OAuthConsentPageInner />
+    </Suspense>
   );
 }

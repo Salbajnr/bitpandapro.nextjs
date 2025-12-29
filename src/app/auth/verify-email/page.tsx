@@ -87,7 +87,7 @@ export default function VerifyEmailPage() {
                 <p className="text-sm text-gray-500 mt-2">
                   If you don't receive the email within a few minutes, check your spam folder or click "resend email" below.
                 </p>
-              )
+              )}
             </div>
 
             <div className="auth-form">
