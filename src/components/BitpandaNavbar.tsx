@@ -105,7 +105,7 @@ export default function BitpandaNavbar() {
                 alt="Bitpanda Pro logo" 
                 width={150}
                 height={44}
-                className="h-11 w-auto"
+                style={{ width: 'auto', height: 'auto' }}
               />
             </div>
           </Link>
@@ -287,9 +287,9 @@ export default function BitpandaNavbar() {
                 </div>
               )}
             </div>
-            
+
             <Link href="/fees" className="text-white hover:text-green-200 font-medium">Fees</Link>
-            
+
             <div 
               className="relative"
               onMouseEnter={() => setIsLearnOpen(true)}
@@ -322,6 +322,7 @@ export default function BitpandaNavbar() {
               <button 
                 className="flex items-center text-white hover:text-green-200"
                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                aria-label="Select language"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 104 0 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -330,7 +331,7 @@ export default function BitpandaNavbar() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-                            
+              
               {isLanguageOpen && (
                 <div 
                   className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md border border-gray-200 py-2"
@@ -362,6 +363,7 @@ export default function BitpandaNavbar() {
           <button 
             className="lg:hidden p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isMenuOpen ? (

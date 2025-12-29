@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
@@ -40,13 +41,10 @@ export const metadata: Metadata = {
   }
 };
 
-export function generateViewport() {
-  return {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  };
-}
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export default function RootLayout({
   children,
@@ -55,10 +53,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.className}`} suppressHydrationWarning>
-      <body className="antialiased">
+      <body className="antialiased" suppressHydrationWarning>
         <ThemeProvider>
           {children}
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

@@ -51,7 +51,7 @@ export default function CryptoTicker() {
 
   if (loading) {
     return (
-      <div className="bg-gray-800 py-1 overflow-hidden" style={{ height: '30px' }}>
+      <div className="bg-gray-800 py-1 overflow-hidden h-[30px]">
         <div className="flex animate-pulse">
           {[...Array(5)].map((_, i) => (
             <div key={i} className="flex items-center mx-2">
@@ -66,7 +66,7 @@ export default function CryptoTicker() {
   if (prices.length === 0) return null;
 
   return (
-    <div className="bg-gray-800 py-1 overflow-hidden" style={{ height: '30px' }}>
+    <div className="bg-gray-800 py-1 overflow-hidden h-[30px]">
       <div className="flex justify-center items-center h-full animate-fadeIn">
         {visibleIndices.map((index) => {
           const crypto = prices[index];

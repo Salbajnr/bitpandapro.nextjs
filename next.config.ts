@@ -2,7 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  reactCompiler: true,
+  reactCompiler: false,
+  outputFileTracingRoot: require('path').join(__dirname, '../'),
+  experimental: {
+    externalDir: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -22,6 +26,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  turbopack: {},
 };
 
 export default nextConfig;

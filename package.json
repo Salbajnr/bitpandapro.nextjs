@@ -2,49 +2,56 @@
   "name": "new-bit",
   "version": "0.1.0",
   "private": true,
-    "engines": {
-      "node": ">=18.0.0"
-    },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "migrate": "prisma migrate dev --name init",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "verify-production": "npx tsx src/lib/production-test.ts",
+    "monitor-logs": "npx tsx src/lib/log-monitor.ts"
   },
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^1.17.1",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.39.8",
+    "@vercel/analytics": "^1.6.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "googleapis": "^169.0.0",
     "lucide-react": "^0.561.0",
     "next": "^16.0.10",
-    "nodemailer": "^7.0.11",
     "pg": "^8.16.3",
     "prisma": "^7.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hcaptcha": "^0.1.1",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.2.1"
   },
   "devDependencies": {
     "@prisma/internals": "^7.1.0",
+    "@types/dotenv": "^6.1.1",
     "@types/node": "^20",
-    "@types/nodemailer": "^7.0.4",
     "@types/pg": "^8.16.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.17",
     "babel-plugin-react-compiler": "^1.0.0",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.2.3",
     "eslint": "^9.0.0",
     "eslint-config-next": "^16.1.0",
     "postcss": "^8.4.33",
     "tailwindcss": "^3.3.0",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

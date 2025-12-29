@@ -264,6 +264,7 @@ export default function Home() {
                       src={step.image} 
                       alt={step.title} 
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-contain"
                     />
                   </div>
